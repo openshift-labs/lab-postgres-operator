@@ -1,0 +1,58 @@
+#!/bin/bash
+
+set -x
+
+set -eo pipefail
+
+# Download the quick install script for the operator.
+
+curl -sL -o quickstart.sh https://raw.githubusercontent.com/CrunchyData/postgres-operator/master/examples/quickstart.sh
+
+chmod +x ./quickstart.sh
+
+# Download and unpack the operator binaries and config files.
+
+mkdir -p $HOME/odev/bin
+mkdir -p $HOME/odev/pkg
+
+mkdir -p $HOME/odev/src/github.com/crunchydata/postgres-operator
+
+curl -sL -o /tmp/postgres-operator.tar.gz https://github.com/CrunchyData/postgres-operator/releases/download/3.5.1/postgres-operator.3.5.1.tar.gz
+
+cd $HOME/odev/src/github.com/crunchydata/postgres-operator
+
+tar xzf /tmp/postgres-operator.tar.gz
+
+cp -a pgo $HOME/odev/bin/pgo
+cp -a expenv $HOME/odev/bin/expenv
+
+rm /tmp/postgres-operator.tar.gz
+
+# Setup user environment with environment variables and bash completion.
+
+cat examples/envs.sh >> /opt/app-root/etc/profile.d/postgres.sh
+echo >> /opt/app-root/etc/profile.d/postgres.sh
+echo "export CO_CMD=oc" >> /opt/app-root/etc/profile.d/postgres.sh
+echo "export CO_APISERVER_URL=https://postgres-operator:8443" >> /opt/app-root/etc/profile.d/postgres.sh
+
+cat examples/envs.sh >> $HOME/.bash_profile
+echo >> $HOME/.bash_profile
+echo "export CO_CMD=oc" >> $HOME/.bash_profile
+echo "export CO_APISERVER_URL=https://postgres-operator:8443" >> $HOME/.bash_profile
+echo >> $HOME/.bash_profile
+
+cat examples/pgo-bash-completion >> $HOME/.bash_profile
+
+# Fix up our own environment for executing remainder of commands.
+
+. examples/envs.sh
+
+# Generate SSHD and API keys. These will be shared for all sessions.
+
+. deploy/gen-sshd-keys.sh
+
+. deploy/gen-api-keys.sh
+
+# Set a username/password for accessing operator REST API.
+
+echo "username:password" > $HOME/.pgouser
