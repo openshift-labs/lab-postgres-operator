@@ -176,7 +176,8 @@ data:
             },
             {
               "apiGroups": [
-                "apps"
+                "apps",
+                "extensions"
               ],
               "resources": [
                 "deployments",
@@ -330,6 +331,7 @@ rules:
   - "*"
 - apiGroups:
   - "apps"
+  - "extensions"
   resources:
   - daemonsets
   - deployments

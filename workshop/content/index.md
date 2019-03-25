@@ -5,14 +5,22 @@ NextPage: exercises/01-operator-prerequisites
 ExitSign: Start Workshop
 ---
 
-```execute
+```execute-1
 oc rollout status deployment/postgres-operator
 ```
 
-```execute
+```execute-1
 pgo version
 ```
 
-```execute
+```execute-2
+oc get pods --watch
+```
+
+```execute-1
 pgo create cluster mycluster
+```
+
+```execute-2
+<ctrl+c>
 ```
