@@ -98,7 +98,8 @@ Presuming that the workshop is already deployed through the learning portal conf
 oc patch clusterrole %jupyterhub_application%-%jupyterhub_namespace%-session-rules --patch '
 rules:
   - apiGroups:
-      - "*"
+      - ""
+      - "cr.client-go.k8s.io"
     resources:
       - pgclusters
       - pgbackups
@@ -153,9 +154,7 @@ data:
                 "pgupgrades"
               ],
               "verbs": [
-                "get",
-                "list",
-                "watch"
+                "*"
               ]
             },
             {
@@ -342,6 +341,18 @@ rules:
   - "batch"
   resources:
   - jobs
+  verbs:
+  - "*"
+- apiGroups:
+  - ""
+  - "cr.client-go.k8s.io"
+  resources:
+  - pgclusters
+  - pgbackups
+  - pgpolicies
+  - pgreplicas
+  - pgtasks
+  - pgupgrades
   verbs:
   - "*"
 '
