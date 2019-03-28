@@ -12,24 +12,3 @@ The [Wikipedia](https://en.wikipedia.org/wiki/PostgreSQL) site describes Postgre
 Before you can use Postgres for your applications, you need to deploy a Postgres server cluster.
 
 In this workshop, you will learn how to create a Postgres cluster using the Postgres operator.
-
-
-```execute-1
-oc rollout status deployment/postgres-operator
-```
-
-```execute-1
-pgo version
-```
-
-```execute-2
-oc get pods --watch
-```
-
-```execute-1
-pgo create cluster mycluster --replica-count=2
-```
-
-```execute-2
-<ctrl+c>
-```
