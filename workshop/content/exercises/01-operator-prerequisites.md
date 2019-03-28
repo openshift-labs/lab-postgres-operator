@@ -18,7 +18,21 @@ oc auth can-i get pgclusters
 
 Where the response is `yes`, you have the appropriate role access.
 
-We also need to verify that the Postgres operator has been deployed into your project. To check this, run:
+Next verify that the Postgres operator has been deployed into your project. To check this, run:
+
+```execute-1
+oc rollout status deployment/postgres-operator
+```
+
+You should see a message:
+
+```
+deployment "postgres-operator" successfully rolled out
+```
+
+If the deployment hasn't yet completed, you will see progress messages as it starts up. Wait for the deployment to finish before proceeding.
+
+Finally, verify that the Postgres operator API server os responding. To check this, run:
 
 ```execute
 pgo version
