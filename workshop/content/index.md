@@ -18,7 +18,7 @@ oc get pods --watch
 ```
 
 ```execute-1
-pgo create cluster mycluster
+pgo create cluster mycluster --replica-count=2
 ```
 
 ```execute-2

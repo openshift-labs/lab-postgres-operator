@@ -11,7 +11,7 @@ mkdir -p $HOME/odev/pkg
 
 mkdir -p $HOME/odev/src/github.com/crunchydata/postgres-operator
 
-curl -sL -o /tmp/postgres-operator.tar.gz https://github.com/CrunchyData/postgres-operator/releases/download/3.5.1/postgres-operator.3.5.1.tar.gz
+curl -sL -o /tmp/postgres-operator.tar.gz https://github.com/CrunchyData/postgres-operator/releases/download/3.5.2/postgres-operator.3.5.2.tar.gz
 
 cd $HOME/odev/src/github.com/crunchydata/postgres-operator
 
@@ -24,8 +24,8 @@ rm /tmp/postgres-operator.tar.gz
 
 # Setup user environment with environment variables and bash completion.
 
-cat $HOME/envs.sh >> /opt/app-root/etc/profile.d/postgres.sh
-cat $HOME/envs.sh >> $HOME/.bash_profile
+cat $HOME/.workshop/envvars >> /opt/app-root/etc/profile.d/postgres.sh
+cat $HOME/.workshop/envvars >> $HOME/.bash_profile
 
 echo 'export CO_APISERVER_URL=https://`kubectl get service postgres-operator -o=jsonpath="{.spec.clusterIP}"`:8443' >> $HOME/.bash_profile
 
@@ -33,7 +33,7 @@ cat examples/pgo-bash-completion >> $HOME/.bash_profile
 
 # Fix up our own environment for executing remainder of commands.
 
-. $HOME/envs.sh
+. $HOME/.workshop/envvars
 
 # Generate SSHD and API keys. These will be shared for all sessions.
 
