@@ -6,12 +6,12 @@ set -eo pipefail
 JUPYTERHUB_APPLICATION=${JUPYTERHUB_APPLICATION:-postgres-lab}
 JUPYTERHUB_NAMESPACE=`oc project --short`
 
-PROJECT_RESOURCES="services,routes,deploymentconfigs,secrets,configmaps,serviceaccounts,rolebindings,serviceaccounts,rolebindings,persistentvolumeclaims"
+APPLICATION_LABELS="app=$JUPYTERHUB_APPLICATION-$JUPYTERHUB_NAMESPACE,spawner=learning-portal"
 
-oc delete "$PROJECT_RESOURCES" \
-    --selector app="$JUPYTERHUB_APPLICATION"
+PROJECT_RESOURCES="services,routes,deploymentconfigs,secrets,configmaps,serviceaccounts,rolebindings,serviceaccounts,rolebindings,persistentvolumeclaims,pods"
+
+oc delete "$PROJECT_RESOURCES" --selector "$APPLICATION_LABELS"
 
 CLUSTER_RESOURCES="clusterrolebindings,clusterroles"
 
-oc delete "$CLUSTER_RESOURCES" \
-    --selector app="$JUPYTERHUB_APPLICATION-$JUPYTERHUB_NAMESPACE"
+oc delete "$CLUSTER_RESOURCES" --selector "$APPLICATION_LABELS"

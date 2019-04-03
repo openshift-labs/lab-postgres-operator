@@ -68,9 +68,7 @@ to have any local content changes be used once again as it will revert back to u
 Deleting the Workshop
 ---------------------
 
-Before deleting anything, close any browser windows running a workshop session. Then wait up to 10 minutes to allow sessions to timeout and the projects created for the sessions to be deleted.
-
-To delete the spawner then run:
+To delete the spawner and any active sessions, including projects, run:
 
 ```
 ./scripts/delete-spawner.sh

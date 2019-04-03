@@ -16,7 +16,8 @@ objects:
     name: ${JUPYTERHUB_APPLICATION}-res
     namespace: ${JUPYTERHUB_NAMESPACE}
     labels:
-      app: ${JUPYTERHUB_APPLICATION}
+      app: ${JUPYTERHUB_APPLICATION}-${JUPYTERHUB_NAMESPACE}
+      spawner: learning-portal
   data:
     extra_resources.json: |-
       {
