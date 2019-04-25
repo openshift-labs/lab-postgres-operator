@@ -44,3 +44,8 @@ cat examples/pgo-bash-completion >> $HOME/.bash_profile
 # Set a username/password for accessing operator REST API.
 
 echo "username:password" > $HOME/.pgouser
+
+mv workshop /opt/app-root/workshop
+
+# Delete all non required files from the image
+rm -rf Dockerfile README.md LICENSE

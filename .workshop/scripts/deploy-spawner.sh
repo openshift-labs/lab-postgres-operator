@@ -50,7 +50,7 @@ echo
 echo "### Install global operator definitions."
 echo
 
-oc apply -f resources/ --recursive
+oc apply -f .workshop/resources/ --recursive
 
 if [ "$?" != "0" ]; then
     fail "Error: Failed to create global operator definitions."
@@ -61,13 +61,13 @@ echo
 echo "### Update spawner configuration for workshop."
 echo
 
-oc process -f templates/clusterroles-session-rules.yaml \
+oc process -f .workshop/templates/clusterroles-session-rules.yaml \
     --param JUPYTERHUB_APPLICATION="$JUPYTERHUB_APPLICATION" \
     --param JUPYTERHUB_NAMESPACE="$JUPYTERHUB_NAMESPACE" | oc apply -f - && \
-oc process -f templates/clusterroles-spawner-rules.yaml \
+oc process -f .workshop/templates/clusterroles-spawner-rules.yaml \
     --param JUPYTERHUB_APPLICATION="$JUPYTERHUB_APPLICATION" \
     --param JUPYTERHUB_NAMESPACE="$JUPYTERHUB_NAMESPACE" | oc apply -f - && \
-oc process -f templates/configmap-extra-resources.yaml \
+oc process -f .workshop/templates/configmap-extra-resources.yaml \
     --param JUPYTERHUB_APPLICATION="$JUPYTERHUB_APPLICATION" \
     --param JUPYTERHUB_NAMESPACE="$JUPYTERHUB_NAMESPACE" | oc apply -f -
 

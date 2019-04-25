@@ -21,7 +21,7 @@ oc new-project workshops
 From within the top level of the Git repository, now run:
 
 ```
-./scripts/deploy-spawner.sh
+./.workshop/scripts/deploy-spawner.sh
 ```
 
 The name of the deployment will be ``postgres-lab``.
@@ -40,7 +40,7 @@ The deployment created above will use a version of the workshop which has been p
 To make changes to the workshop content and test them, edit the files in the Git repository and then run:
 
 ```
-./scripts/build-workshop.sh
+./.workshop/scripts/build-workshop.sh
 ```
 
 This will replace the existing image used by the active deployment.
@@ -52,7 +52,7 @@ When you are happy with your changes, push them back to the remote Git repositor
 If you need to change the RBAC definitions, or what resources are created when a project is created, change the definitions in the ``templates`` directory. You can then re-run:
 
 ```
-./scripts/deploy-spawner.sh
+./.workshop/scripts/deploy-spawner.sh
 ```
 
 and it will update the active definitions.
@@ -60,7 +60,7 @@ and it will update the active definitions.
 Note that if you do this, you will need to re-run:
 
 ```
-./scripts/build-workshop.sh
+./.workshop/scripts/build-workshop.sh
 ```
 
 to have any local content changes be used once again as it will revert back to using the image on ``quay.io``.
@@ -71,19 +71,19 @@ Deleting the Workshop
 To delete the spawner and any active sessions, including projects, run:
 
 ```
-./scripts/delete-spawner.sh
+./.workshop/scripts/delete-spawner.sh
 ```
 
 To delete the build configuration for the workshop image, run:
 
 ```
-./scripts/delete-workshop.sh
+./.workshop/scripts/delete-workshop.sh
 ```
 
 To delete special resources for CRDs and cluster roles for the Postgres operator, run:
 
 ```
-./scripts/delete-resources.sh
+./.workshop/scripts/delete-resources.sh
 ```
 
 Only delete these last set of resources if the Postgres operator is not being used elsewhere in the cluster. Ideally this workshop environment should only be deployed in an expendable cluster, and not one which is shared for other work.
