@@ -9,7 +9,7 @@ fail()
 WORKSHOP_IMAGE="quay.io/openshiftlabs/lab-postgres-operator:latest"
 
 TEMPLATE_REPO=https://raw.githubusercontent.com/openshift-labs/workshop-spawner
-TEMPLATE_VERSION=3.0.5
+TEMPLATE_VERSION=3.0.3
 TEMPLATE_FILE=learning-portal-production.json
 TEMPLATE_PATH=$TEMPLATE_REPO/$TEMPLATE_VERSION/templates/$TEMPLATE_FILE
 
