@@ -45,7 +45,7 @@ cat examples/pgo-bash-completion >> $HOME/.bash_profile
 
 echo "username:password" > $HOME/.pgouser
 
-mv workshop /opt/app-root/workshop
+mv $HOME/workshop /opt/app-root/workshop
 
 # Delete all non required files from the image
 rm -rf Dockerfile README.md LICENSE
