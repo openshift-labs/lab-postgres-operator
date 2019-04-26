@@ -7,7 +7,7 @@ NextPage: 03-creating-the-database
 Cluster Config:
 
 ```exeute-1
-export PGO_NAMESPACE=$(kubectl config view | grep namespace | sed -e 's/.*namespace: \(.*\)$/\1/')
+export PGO_NAMESPACE=$PROJECT_NAMESPACE
 export CO_BASEOS=centos7
 export CO_VERSION=3.5.2
 export CO_IMAGE_TAG=$CO_BASEOS-$CO_VERSION

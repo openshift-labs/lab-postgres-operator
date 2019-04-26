@@ -16,6 +16,6 @@ export CCP_IMAGE_PREFIX=crunchydata
 export PGO_CA_CERT=$COROOT/conf/postgres-operator/server.crt
 export PGO_CLIENT_CERT=$COROOT/conf/postgres-operator/server.crt
 export PGO_CLIENT_KEY=$COROOT/conf/postgres-operator/server.key
-export PGO_NAMESPACE=$(kubectl config view | grep namespace | sed -e 's/.*namespace: \(.*\)$/\1/')
+export PGO_NAMESPACE=$PROJECT_NAMESPACE
 
 export CO_CMD=oc
