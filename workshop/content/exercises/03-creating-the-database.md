@@ -43,6 +43,7 @@ The `mycluster` service should provide an internal path to your primary db insta
 ```execute-1
 export PGO_NAMESPACE=$(kubectl config view | grep namespace | sed -e 's/.*namespace: \(.*\)$/\1/')
 export DB_SVC="mycluster.${PGO_NAMESPACE}.svc.cluster.local"
+export DB_REPLICA_SVC="mycluster-replica.${PGO_NAMESPACE}.svc.cluster.local"
 psql -h $DB_SVC -U etherpad etherpad
 ```
 
@@ -95,11 +96,3 @@ Exit the sql session to return to the command prompt:
 ```
 
 Now that you've confirmed that your database is working via the `psql` command-line tool, we'll configure a front-end application to take advantage of the datastore.
-
-5. create a snapshot of the db (w/ etherpad database and access credentials)
-
-Users can create a database backup using the following pgo CLI command:
-
-```execute-1
-pgo backup mycluster --backup-type=pgbackrest
-```

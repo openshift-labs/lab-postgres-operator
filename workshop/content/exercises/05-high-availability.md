@@ -27,11 +27,33 @@ kubectl delete pod $(kubectl get pods -l primary=true | tail -n 1 | cut -f 1 -d'
 kubectl delete pod $(kubectl get pods -l primary=false | tail -n 1 | cut -f 1 -d' ')
 ```
 
-3. contact the app to verify uptime
+3. contact a replica to prove that our data is still available:
 
 ```execute-1
-psql -h $DB_SVC -U etherpad etherpad -c 'select * from foo;'
+psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'select * from foo;'
 ```
+
+4. attempt to drop the table while connected to a read-only replica:
+
+```execute-1
+psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'drop table foo;'
+```
+
+Expected: write access denied on read-only replica
+
+```execute-1
+psql -h $DB_SVC -U etherpad etherpad -c 'drop table foo;'
+```
+
+Expected: the `drop table` command should succeed on the read/write primary
+
+And the `drop table` transaction should be replicated throughout the cluster:
+
+```execute-1
+psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'select * from foo;'
+```
+
+Expected: no table found
 
 ### cluster failover
 

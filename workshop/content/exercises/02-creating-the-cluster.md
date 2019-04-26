@@ -4,10 +4,35 @@ PrevPage: 01-operator-prerequisites
 NextPage: 03-creating-the-database
 ---
 
+Cluster Config:
+
+```exeute-1
+export CO_BASEOS=centos7
+export CO_VERSION=3.5.2
+export CO_IMAGE_TAG=$CO_BASEOS-$CO_VERSION
+export CO_IMAGE_PREFIX=crunchydata
+export CCP_IMAGE_TAG=$CO_BASEOS-$CO_VERSION
+export CCP_IMAGE=crunchy-postgres-gis
+export CCP_IMAGE_PREFIX=crunchydata
+```
+
+Verify the config settings:
+
+```execute-1
+echo "PGO_NAMESPACE is $PGO_NAMESPACE"
+echo "CO_IMAGE is $CO_IMAGE"
+echo "CO_IMAGE_TAG is $CO_IMAGE_TAG"
+echo "CO_IMAGE_PREFIX is $CCP_IMAGE_PREFIX"
+echo "CCP_IMAGE is $CCP_IMAGE"
+echo "CCP_IMAGE_TAG is $CCP_IMAGE_TAG"
+echo "CCP_IMAGE_PREFIX is $CCP_IMAGE_PREFIX"
+```
+
 Create the Postgres cluster with one db replica and a pgbackrest repository:
 
 ```execute-1
-pgo create cluster mycluster --replica-count=1 --pgbackrest
+
+pgo create cluster mycluster --replica-count=2 --pgbackrest -n $PGO_NAMESPACE
 ```
 
 Check that the CRD for the Postgres cluster has been created:
