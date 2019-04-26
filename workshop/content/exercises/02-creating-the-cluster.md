@@ -7,6 +7,7 @@ NextPage: 03-creating-the-database
 Cluster Config:
 
 ```exeute-1
+export PGO_NAMESPACE=$(kubectl config view | grep namespace | sed -e 's/.*namespace: \(.*\)$/\1/')
 export CO_BASEOS=centos7
 export CO_VERSION=3.5.2
 export CO_IMAGE_TAG=$CO_BASEOS-$CO_VERSION
@@ -19,20 +20,19 @@ export CCP_IMAGE_PREFIX=crunchydata
 Verify the config settings:
 
 ```execute-1
-echo "PGO_NAMESPACE is $PGO_NAMESPACE"
-echo "CO_IMAGE is $CO_IMAGE"
-echo "CO_IMAGE_TAG is $CO_IMAGE_TAG"
-echo "CO_IMAGE_PREFIX is $CCP_IMAGE_PREFIX"
-echo "CCP_IMAGE is $CCP_IMAGE"
-echo "CCP_IMAGE_TAG is $CCP_IMAGE_TAG"
-echo "CCP_IMAGE_PREFIX is $CCP_IMAGE_PREFIX"
+echo "PGO_NAMESPACE is ${PGO_NAMESPACE}"
+echo "CO_IMAGE is ${CO_IMAGE}"
+echo "CO_IMAGE_TAG is ${CO_IMAGE_TAG}"
+echo "CO_IMAGE_PREFIX is ${CCP_IMAGE_PREFIX}"
+echo "CCP_IMAGE is ${CCP_IMAGE}"
+echo "CCP_IMAGE_TAG is ${CCP_IMAGE_TAG}"
+echo "CCP_IMAGE_PREFIX is ${CCP_IMAGE_PREFIX}"
 ```
 
-Create the Postgres cluster with one db replica and a pgbackrest repository:
+Create the Postgres cluster with one db replica:
 
 ```execute-1
-
-pgo create cluster mycluster --replica-count=2 --pgbackrest -n $PGO_NAMESPACE
+pgo create cluster mycluster --replica-count=2
 ```
 
 Check that the CRD for the Postgres cluster has been created:
@@ -49,23 +49,6 @@ mycluster   4s
 
 ```execute-1
 pgo show cluster mycluster
-```
-
-#### Verify that the Database Service is Running
-
-Confirm that the database creation worked by running the following command to list the available services:
-
-```execute-1
-oc get services
-```
-
-You should see `mycluster` and `mycluster-replica` in the list of available services:
-```
-NAME                             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
-mycluster                        ClusterIP   172.30.112.180   <none>        5432/TCP,9100/TCP,10000/TCP,2022/TCP,9187/TCP   2m
-mycluster-backrest-shared-repo   ClusterIP   172.30.76.40     <none>        2022/TCP                                        2m 
-mycluster-replica                ClusterIP   172.30.68.195    <none>        5432/TCP,9100/TCP,10000/TCP,2022/TCP,9187/TCP   2m
-postgres-operator                ClusterIP   172.30.41.114    <none>        8443/TCP                                        3m
 ```
 
 ### List pods associated with the new Postgres cluster

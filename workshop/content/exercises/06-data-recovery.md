@@ -1,6 +1,6 @@
 ---
 Title: Snapshot Automation and Data Recovery
-PrevPage: 05-high-availability
+PrevPage: 05-using-postgres-in-an-app.md
 NextPage: ../final
 ---
 

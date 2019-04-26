@@ -1,7 +1,7 @@
 ---
 Title: Using Postgres in an Application
-PrevPage: 03-creating-the-database
-NextPage: 05-high-availability
+PrevPage: 04-high-availability
+NextPage: ../final
 ---
 
 ### Overview of the Application
@@ -40,3 +40,14 @@ oc expose svc etherpad
 ```
 
 3. Connect to the app, write some data, verify that etherpad is working, try a 2nd browser?
+
+
+## Summary
+
+Now that you've completed this lab, you should be familiar with:
+* How to create a Postgres Enterprise cluster using the Crunchy Enterprise Postgres operator
+* How to create a Postgres database using the `pgo` command-line tool, and how to store and retrieve data using basic SQL statements
+* How to validate Data Replication and High Availability features for this cluster
+* How to connect our Etherpad example application to the Postgres datastore
+
+Continue to the next page for more resources on OpenShift, Operators, and Postgres.

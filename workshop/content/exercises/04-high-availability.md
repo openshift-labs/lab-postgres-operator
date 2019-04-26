@@ -1,7 +1,7 @@
 ---
 Title: High-Availability
-PrevPage: 04-using-postgres-in-an-app
-NextPage: 06-data-recovery
+PrevPage: 03-creating-the-database
+NextPage: 05-using-postgres-in-an-app
 ---
 Now that your Postgres cluster is running and you've created a database, let's explore the auto-recovery behavior and see what happens if one of the nodes in the cluster fails.
 
@@ -73,6 +73,7 @@ Now that you've completed this scenario, you should be familiar with:
 * How to create a Postgres cluster using the `pgo` command-line tool and the Crunchy Enterprise Postgres operator
 * How to create Postgres databases, and user access controls
 * How to verify read/write access to our db using the psql command-line tool
-* The basics of how the Postgres operator handles auto-recovery of nodes in a Postgres cluster
+* How to verify that data replication is working correctly
+* How to test the auto-recovery features of a Crunchy Postgres cluster
 
-Continue to the next page for more resources on OpenShift, Operators, and Postgres.
+In the next section, we'll configure a front-end application to communicate with the datastore.

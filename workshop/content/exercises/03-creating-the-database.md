@@ -1,7 +1,7 @@
 ---
 Title: Creating a Database
 PrevPage: 02-creating-the-cluster
-NextPage: 04-using-postgres-in-an-app
+NextPage: 04-high-availability
 ---
 
 ### Retrieve the Password
@@ -14,7 +14,6 @@ The result should be "pgoadmin"
 
 ### Create the Database
 
-1. Create a new database usng the pgo tool
 
 Switch back to the *Terminal* tab to find the "primary" db replication pod:
 
@@ -22,21 +21,40 @@ Switch back to the *Terminal* tab to find the "primary" db replication pod:
 oc get pods -l primary=true | tail -n 1 | cut -f 1 -d' '
 ```
 
-Connect to the Primary to create a new database named "etherpad":
+1. Connect to the primary to create a new database named "etherpad":
 
 ```execute-1
 oc exec -it $(oc get pods -l primary=true  | tail -n 1 | cut -f 1 -d' ') createdb etherpad
 ```
 
-3. Create a dedicated db user and password for the etherpad application to use:
+2. Create a dedicated db user and password for the etherpad application to use:
 
-Use the `pgo` tool to add an "etherpad" user:
+Use the `pgo` tool to add an "etherpad" user to your new db:
 
 ```execute-1
 pgo create user etherpad --db etherpad --password etherpad --selector=name=mycluster
 ```
 
-4. Verify read/write access using the "etherpad" user account and db using `psql`:
+## Validating your work
+
+### Verify that the Database Service is Running
+
+Confirm that the database creation worked by running the following command to list the available services:
+
+```execute-1
+kubectl get services
+```
+
+You should see `mycluster` and `mycluster-replica` in the list of available services:
+```
+NAME                             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                         AGE
+mycluster                        ClusterIP   172.30.112.180   <none>        5432/TCP,9100/TCP,10000/TCP,2022/TCP,9187/TCP   2m
+mycluster-replica                ClusterIP   172.30.68.195    <none>        5432/TCP,9100/TCP,10000/TCP,2022/TCP,9187/TCP   2m
+postgres-operator                ClusterIP   172.30.41.114    <none>        8443/TCP                                        3m
+```
+
+### Verifying read/write access
+Verify read/write access using the "etherpad" user account and db using `psql`:
 
 The `mycluster` service should provide an internal path to your primary db instances at `mycluster.%project_namespace%.svc.cluster.local`.  
 
@@ -47,7 +65,7 @@ export DB_REPLICA_SVC="mycluster-replica.${PGO_NAMESPACE}.svc.cluster.local"
 psql -h $DB_SVC -U etherpad etherpad
 ```
 
-Enter the password "etherpad" to continue:
+Enter the password "etherpad" to authenticate:
 ```execute-1
 etherpad
 ```
@@ -95,4 +113,4 @@ Exit the sql session to return to the command prompt:
 \q
 ```
 
-Now that you've confirmed that your database is working via the `psql` command-line tool, we'll configure a front-end application to take advantage of the datastore.
+Now that you've confirmed that your database is working via the `psql` command-line tool, we'll test some high-availability features that are avialable in this cluster.
