@@ -6,20 +6,35 @@ NextPage: ../final
 
 The PostgreSQL Operator 3.5 provides point-in-time-recovery from this newly introduced pgBackRest shared repository by implementing the pgBackRest restore command.
 
-//Users can create a pgBackRest backup using the following pgo CLI command:
-//
-//pgo backup mycluster --backup-type=pgbackrest
-
 Recovering from data loss: 
 
-1. log in to the primary and drop the DB
+Find a specific point in time to roll back to (in order to recover from data loss):
+
 ```execute-1
-oc exec -it $(oc get pods -l primary=true  | tail -n 1 | cut -f 1 -d' ') psql -- -U etherpad 'drop database etherpad;'
+export PITR=$(psql -h $DB_SVC -U etherpad etherpad -c 'select now()' | head -n 3 | tail -n 1 | cut -f 2,3 -d' ')
+echo $PITR
 ```
 
-2. verify that we have data loss and an ongoing outage:
 ```execute-1
-oc exec -it $(oc get pods -l primary=true  | tail -n 1 | cut -f 1 -d' ') psql -- -U etherpad 'select * from foo;'
+etherpad
+```
+
+1. log in to the primary and drop the DB (password: etherpad):
+```execute-1
+psql -h $DB_SVC -U etherpad etherpad -c 'drop table foo;'
+```
+
+```execute-1
+etherpad
+```
+
+2. verify that we are no longer able to find table `foo`:
+```execute-1
+psql -h $DB_SVC -U etherpad etherpad -c 'select * from foo;'
+```
+
+```execute-1
+etherpad
 ```
 
 3. show list backups command
@@ -33,31 +48,23 @@ pgo show backup mycluster --backup-type=pgbackrest
 Users can perform a point-in-time restore of a given cluster with pgBackRest using the following command:
 
 ```
-pgo restore mycluster --backup-opts="--type=time" --pitr-target="2019-01-14 00:02:14.921404+00"
+pgo restore mycluster --backup-opts="--type=time" --pitr-target="$PITR"
 ```
-
-Note: When you restore a cluster, you are putting your PostgreSQL database into a different state (or timeline) and therefore you should exercise caution before doing so!
 
 5. verify that our data has been restored
 
 ```execute-1
-oc exec -it $(oc get pods -l primary=true  | tail -n 1 | cut -f 1 -d' ') psql -- -U etherpad 'select * from foo;'
+psql -h $DB_SVC -U etherpad etherpad -c 'select * from foo;'
+```
+
+```execute-1
+etherpad
 ```
 
 Visit the etherpad web service to confirm that data has been successfully recovered
 
 more on this topic:
 https://info.crunchydata.com/blog/pgbackrest-point-in-time-recovery-using-crunchy-postgresql-operator
-
-
-### pgo-scheduler
-
-New in PostgreSQL Operator 3.5: a dedicated cron scheduler now runs within the Operator pod. This scheduler is tightly integrated into the Operator and offers users a means to schedule pg_basebackup, pgBackRest, and policy scheduled jobs (or in other words, jobs where you want to run your own SQL). Users interact with the scheduler using the following commands:
-
-pgo create schedule
-pgo delete schedule
-pgo show schedule
-
 
 ## Summary
 
