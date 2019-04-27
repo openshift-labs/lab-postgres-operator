@@ -6,7 +6,7 @@ NextPage: 03-creating-the-database
 
 Cluster Config:
 
-```exeute-1
+```execute-1
 export PGO_NAMESPACE=$PROJECT_NAMESPACE
 export CO_BASEOS=centos7
 export CO_VERSION=3.5.2
@@ -32,7 +32,7 @@ echo "CCP_IMAGE_PREFIX is ${CCP_IMAGE_PREFIX}"
 Create the Postgres cluster with one db replica:
 
 ```execute-1
-pgo create cluster mycluster --replica-count=2
+pgo create cluster mycluster --ccp-image=crunchy-postgres-gis --replica-count=2
 ```
 
 Check that the CRD for the Postgres cluster has been created:
