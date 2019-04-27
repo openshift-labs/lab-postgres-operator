@@ -9,51 +9,86 @@ Now that your Postgres cluster is running and you've created a database, let's e
 oc get pods --watch
 ```
 
-Add an extra replica, to increase our ability to scale reads:
+1. Add an extra replica, increasing our ability to scale reads:
 
 ```execute-1
 pgo scale mycluster --replica-count=1
 ```
 
-1. Simulate failure and autorecovery of a Primary DB node:
-
-```execute-1
-kubectl delete pod $(kubectl get pods -l primary=true | tail -n 1 | cut -f 1 -d' ')
-```
-
-2. Simulate failure and autorecovery of a DB replica:
+2. Simulate the failure and autorecovery of a DB replica:
 
 ```execute-1
 kubectl delete pod $(kubectl get pods -l primary=false | tail -n 1 | cut -f 1 -d' ')
 ```
 
-3. contact a replica to prove that our data is still available:
+Enter the password "etherpad" to authenticate this transaction:
+```execute-1
+etherpad
+```
+
+3. Simulate the failure and autorecovery of a Primary DB node:
+
+```execute-1
+kubectl delete pod $(kubectl get pods -l primary=true | tail -n 1 | cut -f 1 -d' ')
+```
+
+Enter the password "etherpad" to authenticate this transaction:
+```execute-1
+etherpad
+```
+
+4. Contact a replica to verify that our data is still available:
 
 ```execute-1
 psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'select * from foo;'
 ```
 
-4. attempt to drop the table while connected to a read-only replica:
+Enter the password "etherpad" to authenticate this transaction:
+```execute-1
+etherpad
+```
+
+5. attempt to drop the table while connected to a read-only replica:
 
 ```execute-1
 psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'drop table foo;'
 ```
 
+Enter the password "etherpad" to authenticate this transaction:
+```execute-1
+etherpad
+```
+
 Expected: write access denied on read-only replica
+
+6. Attempt to drop the table while connected to a read/write primary:
 
 ```execute-1
 psql -h $DB_SVC -U etherpad etherpad -c 'drop table foo;'
+```
+
+Enter the password "etherpad" to authenticate this transaction:
+```execute-1
+etherpad
 ```
 
 Expected: the `drop table` command should succeed on the read/write primary
 
 And the `drop table` transaction should be replicated throughout the cluster:
 
+7. Query one of the db replicas to confirm that the `drop table` transaction has been replicated throughout the cluster:
+
 ```execute-1
 psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'select * from foo;'
 ```
 
-Expected: no table found
+Expected response:
+
+```
+ERROR:  relation "foo" does not exist
+LINE 1: select * from foo;
+                      ^
+```
 
 ### cluster failover
 
