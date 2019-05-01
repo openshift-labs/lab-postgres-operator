@@ -6,7 +6,7 @@ fail()
     exit 1
 }
 
-WORKSHOP_IMAGE="quay.io/openshiftlabs/lab-postgres-operator:latest"
+WORKSHOP_IMAGE="quay.io/openshiftlabs/lab-postgres-operator:master"
 
 TEMPLATE_REPO=https://raw.githubusercontent.com/openshift-labs/workshop-spawner
 TEMPLATE_VERSION=3.0.3
