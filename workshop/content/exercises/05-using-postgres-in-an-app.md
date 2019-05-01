@@ -12,7 +12,8 @@ Let's give it a try! Deploy `etherpad` with:
 
 ```execute-1
 export DB_SVC="mycluster.${PGO_NAMESPACE}.svc.cluster.local"
-oc new-app -p DB_HOST=$DB_SVC -p DB_PASS="etherpad" https://raw.githubusercontent.com/ryanj/docker-openshift-etherpad/master/etherpad-template.yaml
+export DB_REPLICA_SVC="mycluster-replica.${PGO_NAMESPACE}.svc.cluster.local"
+oc new-app -p DB_HOST=$DB_SVC -f etherpad-template.yaml
 ```
 
 You should see output similar to this:
@@ -52,16 +53,24 @@ The `etherpad` host address should be visible in the output, but you can also lo
 oc get routes
 ```
 
-After the `etherpad` pod reports "Ready 1/1" you should be able to connect to the app, write some test data, and verify that etherpad is working!
+This may take a minute or more to download and boot the image, and to initialize the database using our established credentials.  Let's watch for a `1/1` Ready status from our `etherpad` pod:
 
 ```execute-2
 watch kubectl get pods
 ```
 
-Bonus Round: Invite a someone to collaborate, or try joining with a 2nd browser
+After the `etherpad` pod reports "Ready 1/1" you should be able to connect to the app, write some test data, and verify that etherpad is working!
 
-### Verify data replication
-Etherpad stores it's data in a table named `store`.  Let's query our replicas to see if they're up-to-date and ready to automatically replace any primary db nodes that fail:
+![New Pad](new-etherpad.png)
+
+***Bonus Round:*** Try joining with a 2nd browser, or invite someone to collaborate!
+
+![Realtime Collaboration with Etherpad](collaborate-with-etherpad.png)
+
+### Final replication check
+Etherpad stores it's data in a table named `store`.  
+
+Let's query our replicas to see if they're up-to-date and ready to automatically replace any primary db nodes that might fail, or need to be rescheduled, migrated, upgraded, or disrupted in some other way:
 
 ```execute-1
 psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'select * from store;'
@@ -73,7 +82,7 @@ password:
 etherpad
 ```
 
-Congratulations - If you've found data in this table, your postgres db replication is working as expected!
+Congratulations - If you've found data in this table, your then db replication for etherpad is working as expected!
 
 ## Summary
 

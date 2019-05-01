@@ -9,6 +9,8 @@ Now that your Postgres cluster is running and you've created a database, let's e
 watch oc get pods
 ```
 
+### Scaling
+
 Observe how the cluster responds to each of the following commands as we test various high-availability features that are provided by this operator.
 
 First, let's try adding an extra replica, to increase our ability to scale reads:
@@ -17,7 +19,7 @@ First, let's try adding an extra replica, to increase our ability to scale reads
 pgo scale mycluster --replica-count=1
 ```
 
-Approve (yes/no)?
+WARNING: Are you sure? (yes/no):
 
 ```execute-1
 yes
@@ -36,6 +38,8 @@ Simulate the failure and autorecovery of a Primary DB node:
 ```execute-1
 kubectl delete pod $(kubectl get pods -l primary=true | tail -n 1 | cut -f 1 -d' ')
 ```
+
+### Read-Only Replicas
 
 Contact a replica to verify that our data is still available:
 
@@ -56,8 +60,6 @@ If you see the following data available on the replicas, then your writes have b
 (1 row) 
 ```
 
-### Read-only replicas
-
 Attempt to drop the db table while connected to a read-only replica:
 
 ```execute-1
@@ -75,7 +77,7 @@ Expected:
 ERROR:  cannot execute DROP TABLE in a read-only transaction
 ```
 
-### Finish the job
+### Replication Validation
 
 Attempt to drop the table while connected to a read/write primary:
 
@@ -113,7 +115,7 @@ LINE 1: select * from foo;
 
 This should prove that despite both of our simulated outages, db replicantion is still working as expected.  And, writes are only allowed when connected to the primary db service endpoint.
 
-### manual failover
+### Manual Failovers
 
 To lean about manually triggering a failover using `pgo` try running:
 
@@ -127,7 +129,7 @@ Specific failover targets for this cluster should be visible in the output here:
 pgo failover mycluster --query
 ```
 
-### cluster upgrade automation
+### Upgrade Automation
 
 For information about migrating/upgrading your db cluster to a newer release, try running:
 
@@ -135,10 +137,7 @@ For information about migrating/upgrading your db cluster to a newer release, tr
 pgo upgrade --help
 ```
 
-### Active-Active cluster configurations 
-
-The CrunchyDB folks have a nice post on building active-active clusters on their blog:
-https://info.crunchydata.com/blog/a-guide-to-building-an-active-active-postgresql-cluster
+## Summary
 
 Now that you've completed this section, you should be familiar with:
 * How to create a Postgres cluster using the `pgo` command-line tool and the Crunchy Enterprise Postgres operator
