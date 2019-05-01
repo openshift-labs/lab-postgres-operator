@@ -35,6 +35,11 @@ Use the `pgo` tool to add an "etherpad" user to your new db:
 pgo create user etherpad --db etherpad --password etherpad --selector=name=mycluster
 ```
 
+You should see the following printed in response:
+```
+adding new user etherpad to mycluster
+```
+
 ## Validating your work
 
 ### Verify that the Database Service is Running
@@ -98,13 +103,9 @@ Output:
 
 ```
  name  | done
-
 --------+------
-
  Ryan J | t
-
 (1 row)
-
 ```
 
 Exit the sql session to return to the command prompt:
