@@ -34,8 +34,7 @@ service etherpad created
 
 Expose the service
 
-```
-kubectl expose deployment etherpad
+```execute
 oc expose svc etherpad
 ```
 

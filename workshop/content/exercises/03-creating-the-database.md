@@ -8,7 +8,9 @@ NextPage: 04-high-availability
 
 The administrative credentials can be accessed via the `kubectl get secrets` command.  Try checking the `pgo-auth-secret` secret to find the administrative username and password for this Postgres cluster:
 
+```execute
 oc get secrets pgo-auth-secret -o 'go-template={{index .data "pgouser"}}' | base64 --decode | head -n 1
+```
 
 The result should be "pgoadmin"
 
@@ -62,12 +64,8 @@ The `mycluster` service should provide an internal path to your primary db insta
 export PGO_NAMESPACE=$(kubectl config view | grep namespace | sed -e 's/.*namespace: \(.*\)$/\1/')
 export DB_SVC="mycluster.${PGO_NAMESPACE}.svc.cluster.local"
 export DB_REPLICA_SVC="mycluster-replica.${PGO_NAMESPACE}.svc.cluster.local"
+export PGPASSWORD=etherpad
 psql -h $DB_SVC -U etherpad etherpad
-```
-
-Enter the password "etherpad" to authenticate:
-```execute-1
-etherpad
 ```
 
 ```execute-1
