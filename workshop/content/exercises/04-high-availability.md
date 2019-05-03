@@ -25,13 +25,13 @@ pgo scale mycluster --replica-count=1 --no-prompt
 Simulate the failure and autorecovery of a DB replica:
 
 ```execute-1
-kubectl delete pod $(kubectl get pods -l primary=false | tail -n 1 | cut -f 1 -d' ')
+oc delete pod $(oc get pods -l primary=false | tail -n 1 | cut -f 1 -d' ')
 ```
 
 Simulate the failure and autorecovery of a Primary DB node:
 
 ```execute-1
-kubectl delete pod $(kubectl get pods -l primary=true | tail -n 1 | cut -f 1 -d' ')
+oc delete pod $(oc get pods -l primary=true | tail -n 1 | cut -f 1 -d' ')
 ```
 
 ### Read-Only Replicas
@@ -47,7 +47,7 @@ If you see the following data available on the replicas, then your writes have b
   name  | done                                                                                                                 
 --------+------                                                                                                                
  Ryan J | t                                                                                                                    
-(1 row) 
+(1 row)
 ```
 
 Attempt to drop the db table while connected to a read-only replica:
@@ -56,7 +56,7 @@ Attempt to drop the db table while connected to a read-only replica:
 psql -h $DB_REPLICA_SVC -U etherpad etherpad -c 'drop table foo;'
 ```
 
-Expected: 
+Expected:
 
 ```
 ERROR:  cannot execute DROP TABLE in a read-only transaction

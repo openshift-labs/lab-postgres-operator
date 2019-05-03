@@ -1,12 +1,12 @@
 ---
 Title: Snapshot Automation and Data Recovery
 PrevPage: 05-using-postgres-in-an-app.md
-NextPage: ../final
+NextPage: ../finish
 ---
 
 The PostgreSQL Operator 3.5 provides point-in-time-recovery from this newly introduced pgBackRest shared repository by implementing the pgBackRest restore command.
 
-Recovering from data loss: 
+Recovering from data loss:
 
 Find a specific point in time to roll back to (in order to recover from data loss):
 

@@ -7,11 +7,7 @@ NextPage: 02-creating-the-cluster
 Installation and setup steps are available for vanilla K8s:
 https://operatorhub.io/operator/alpha/postgres-operator.v3.5.0
 
-screenshot of above
-
-Since we're using OpenShift, the OperatorLifecycleManager (OLM), and a collection of Operator-based solutions have been bundled as stock compoents in this distribution of Kubernetes.
-
-screenshot of install modal dialog
+Since we're using OpenShift, the OperatorLifecycleManager (OLM), and a collection of Operator-based solutions have been bundled as stock components in this distribution of Kubernetes.
 
 The Postgres operator is installed into a project to monitor requests to create a Postgres cluster. The operator can only be deployed and setup by a cluster admin of the OpenShift cluster.
 

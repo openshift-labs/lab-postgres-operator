@@ -6,7 +6,7 @@ NextPage: 04-high-availability
 
 ### Retrieve the Password
 
-The administrative credentials can be accessed via the `kubectl get secrets` command.  Try checking the `pgo-auth-secret` secret to find the administrative username and password for this Postgres cluster:
+The administrative credentials can be accessed via the `oc get secrets` command.  Try checking the `pgo-auth-secret` secret to find the administrative username and password for this Postgres cluster:
 
 ```execute
 oc get secrets pgo-auth-secret -o 'go-template={{index .data "pgouser"}}' | base64 --decode | head -n 1
@@ -49,7 +49,7 @@ adding new user etherpad to mycluster
 Confirm that the database creation worked by running the following command to list the available services:
 
 ```execute-1
-kubectl get services
+oc get services
 ```
 
 You should see `mycluster` and `mycluster-replica` in the list of available services:
@@ -66,10 +66,11 @@ Verify read/write access using the "etherpad" user account and db using `psql`:
 The `mycluster` service should provide an internal path to your primary db instances at `mycluster.%project_namespace%.svc.cluster.local`.  
 
 ```execute-1
-export PGO_NAMESPACE=$(kubectl config view | grep namespace | sed -e 's/.*namespace: \(.*\)$/\1/')
+export PGO_NAMESPACE=%project_namespace%
 export DB_SVC="mycluster.${PGO_NAMESPACE}.svc.cluster.local"
 export DB_REPLICA_SVC="mycluster-replica.${PGO_NAMESPACE}.svc.cluster.local"
 export PGPASSWORD=etherpad
+export PAGER=cat
 psql -h $DB_SVC -U etherpad etherpad
 ```
 

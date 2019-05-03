@@ -1,6 +1,7 @@
 ---
 Sort: 3
 Title: Workshop Summary
+PrevPage: exercises/05-using-postgres-in-an-app
 ExitSign: Finish Workshop
 ---
 
@@ -19,4 +20,3 @@ CLI overview: https://crunchydata.github.io/postgres-operator/latest/operatorcli
 GitHub Sources: https://github.com/CrunchyData/postgres-operator
 
 Upgrades: https://crunchydata.github.io/postgres-operator/latest/upgrade/
-

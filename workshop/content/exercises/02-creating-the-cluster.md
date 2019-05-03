@@ -4,7 +4,7 @@ PrevPage: 01-operator-prerequisites
 NextPage: 03-creating-the-database
 ---
 
-Create the Postgres cluster with one db replica:
+Create the Postgres cluster with two database replica:
 
 ```execute-1
 pgo create cluster mycluster --replica-count=2
@@ -19,15 +19,17 @@ oc get pgclusters
 You should see `mycluster` in the output:
 ```
 NAME        AGE                                                                                 
-mycluster   4s 
+mycluster   4s
 ```
+
+To show details of the cluster run:
 
 ```execute-1
 pgo show cluster mycluster
 ```
 
 ### List pods associated with the new Postgres cluster
-Watch the pod statuses as we wait for the Postgres cluster deployment to complete: 
+Watch the pod statuses as we wait for the Postgres cluster deployment to complete:
 
 ```execute-2
 watch oc get pods
