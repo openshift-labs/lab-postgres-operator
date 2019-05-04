@@ -6,7 +6,7 @@ fail()
     exit 1
 }
 
-WORKSHOP_IMAGE="quay.io/openshiftlabs/lab-postgres-operator:master"
+WORKSHOP_IMAGE="quay.io/openshiftlabs/lab-postgres-operator:1.0"
 
 RESOURCE_BUDGET="unlimited"
 LETS_ENCRYPT=${LETS_ENCRYPT:-false}
