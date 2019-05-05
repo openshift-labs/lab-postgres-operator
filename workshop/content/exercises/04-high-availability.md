@@ -106,10 +106,8 @@ pgo failover mycluster --query
 
 ### Upgrade Automation
 
-For information about migrating/upgrading your db cluster to a newer release, try running:
+For information about migrating/upgrading your db cluster to a newer release, try running the following:
 
-Follow up:
-=======
 ```execute-1
 pgo upgrade --help
 ```

@@ -11,7 +11,7 @@ Since we're using OpenShift, the OperatorLifecycleManager (OLM), and a collectio
 
 The Postgres operator is installed into a project to monitor requests to create a Postgres cluster. The operator can only be deployed and setup by a cluster admin of the OpenShift cluster.
 
-In this workshop environment, the Postgres operator has been pre-installed into your project ready for use. The user you are running the workshop as, has also been granted the appropriate access to create a Postgres cluster.
+In this workshop environment, the Postgres operator has been pre-installed into your project ready for use. The user you are running the workshop as has also been granted the appropriate access to create a Postgres cluster.
 
 To validate that your user has been granted the appropriate access, you can use the `oc auth can-i` command to see whether you can list the custom resource definition (CRD) objects the Postgres operator uses.
 

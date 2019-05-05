@@ -63,7 +63,7 @@ This may take a minute or more to download and boot the image, and to initialize
 oc rollout status dc/etherpad
 ```
 
-After the `etherpad` pod reports "Ready 1/1" you should be able to connect to the app, write some test data, and verify that etherpad is working!
+After the `etherpad` pod reports "Ready 1/1" you should be able to connect to the app, write some test data, and verify that etherpad is working! To connect to the app, simply click on the URL above.
 
 ![New Pad](new-etherpad.png)
 
