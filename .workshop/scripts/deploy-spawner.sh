@@ -34,6 +34,9 @@ oc process -f $TEMPLATE_PATH \
     --param PROJECT_NAME="$JUPYTERHUB_NAMESPACE" \
     --param RESOURCE_BUDGET="$RESOURCE_BUDGET" \
     --param HOMEROOM_LINK="$HOMEROOM_LINK" \
+    --param GATEWAY_ENVVARS="$GATEWAY_ENVVARS" \
+    --param TERMINAL_ENVVARS="$TERMINAL_ENVVARS" \
+    --param WORKSHOP_ENVVARS="$WORKSHOP_ENVVARS" \
     --param LETS_ENCRYPT="$LETS_ENCRYPT" | oc apply -f -
 
 if [ "$?" != "0" ]; then
