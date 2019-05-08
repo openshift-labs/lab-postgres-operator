@@ -21,7 +21,9 @@ The main CRD object that the Postgres operator uses is the `pgclusters` object. 
 oc auth can-i get pgclusters
 ```
 
-Where the response is `yes`, you have the appropriate role access.
+Did you type the command in yourself? If you did, click on the command here instead and you will find that it is executed for you. You can click on any command here in the workshop notes which has the <span class="glyphicon glyphicon-play-circle"></span> icon shown to the right of it, and it will be copied to the interactive terminal and run for you.
+
+When run, if the response is `yes` you have the appropriate role access.
 
 Next verify that the Postgres operator has been deployed into your project. To check this, run:
 
