@@ -24,12 +24,12 @@ From within the top level of the Git repository, now run:
 ./.workshop/scripts/deploy-spawner.sh
 ```
 
-The name of the deployment will be ``postgres-lab``.
+The name of the deployment will be ``lab-postgres-operator``.
 
 You can determine the hostname for the URL to access the workshop by running:
 
 ```
-oc get route postgres-lab
+oc get route lab-postgres-operator
 ```
 
 Editing the Workshop
